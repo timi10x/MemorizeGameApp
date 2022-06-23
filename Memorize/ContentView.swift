@@ -9,56 +9,51 @@ import SwiftUI
 
 struct ContentView: View {
     
-    
-    @State var emojiCount = 20
+    let viewModel: EmojiMemoryGame
     
     var body: some View {
-        VStack {
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
-                    ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
-                        CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
-                    }
+        ScrollView(showsIndicators: false) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 70))]) {
+                ForEach(viewModel.cards) { card in
+                    CardView(card: card).aspectRatio(2/3, contentMode: .fit)
                 }
-                .padding(.horizontal)
-                .foregroundColor(.red)
             }
+            .padding(.horizontal)
+            .foregroundColor(.red)
         }
-        
     }
 }
 
 struct CardView: View {
-    var content: String
-    @State var isFaceUp: Bool = true
+    
+    var card: MemoryGame<String>.Card
     
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 25)
-            if isFaceUp {
+            if card.isFaceUp {
                 shape.fill().foregroundColor(.white)
                     .overlay {
                         shape
                             .strokeBorder(lineWidth: 3)
                     }
                 
-                Text(content)
+                Text(card.content)
                     .font(.largeTitle)
                     .foregroundColor(.orange)
             } else {
                 shape.fill()
             }
         }
-        .onTapGesture {
-            isFaceUp = !isFaceUp
-        }
         
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ContentView()
+        let game = EmojiMemoryGame()
+        ContentView(viewModel: game)
             .preferredColorScheme(.dark)
             .previewInterfaceOrientation(.portrait)
     }
