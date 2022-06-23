@@ -24,47 +24,8 @@ struct ContentView: View {
                 .padding(.horizontal)
                 .foregroundColor(.red)
             }
-            
-            Spacer()
-            
-            HStack {
-                
-                remove
-                
-                Spacer()
-                
-                Text("Shuffle")
-                
-                Spacer()
-                
-                add
-                
-                
-            }
-            .font(.largeTitle)
-            .padding(.horizontal, 30)
         }
         
-    }
-    
-    var remove: some View {
-        Button{
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
-        } label: {
-            Image(systemName: "minus.circle")
-        }
-    }
-    
-    var add: some View {
-        Button{
-            if emojiCount < emojis.count {
-                emojiCount += 1
-            }
-        } label: {
-            Image(systemName: "plus.circle")
-        }
     }
 }
 
