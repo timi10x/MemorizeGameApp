@@ -42,7 +42,7 @@ struct CardView: View {
                 
                 Text(card.content).font(font(in: geometry.size))
             }
-            .modifier(Cardify(isFaceUp: card.isFaceUp))
+            .cardify(isFaceUp: card.isFaceUp)
         }
     }
     
