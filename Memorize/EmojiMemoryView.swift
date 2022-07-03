@@ -15,6 +15,7 @@ struct EmojiMemoryView: View {
     var body: some View {
         VStack {
             gameBody
+            deckBody
             shuffle
         }
         .padding(.horizontal)
@@ -37,7 +38,7 @@ struct EmojiMemoryView: View {
             } else {
                 CardView(card: card)
                     .padding(4)
-                    .transition(AnyTransition.asymmetric(insertion: .scale, removal: .opacity).animation(.easeInOut(duration: 1)))
+                    .transition(AnyTransition.asymmetric(insertion: .scale, removal: .opacity))
                     .onTapGesture {
                         withAnimation {
                             game.choose(card)
@@ -45,12 +46,7 @@ struct EmojiMemoryView: View {
                     }
             }
         }
-        .onAppear {
-            for card in game.cards {
-                deal(card)
-            }
-        }
-        .foregroundColor(.red)
+        .foregroundColor(CardConstants.color)
     }
     
     var shuffle: some View {
@@ -59,6 +55,33 @@ struct EmojiMemoryView: View {
                 game.shuffle()
             }
         }
+    }
+    
+    var deckBody: some View {
+        ZStack {
+            ForEach (game.cards.filter(isUndealt)) { card in
+                CardView(card: card)
+                    .transition(AnyTransition.asymmetric(insertion: .opacity, removal: .scale))
+            }
+        }
+        .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
+        .foregroundColor(CardConstants.color)
+        .onTapGesture {
+            withAnimation {
+                for card in game.cards {
+                    deal(card)
+                }
+            }
+        }
+    }
+    
+    private struct CardConstants {
+        static let color = Color.red
+        static let aspectRatio: CGFloat = 2/3
+        static let dealDuration: Double = 0.5
+        static let totlDealDuration: Double = 2
+        static let undealtHeight: CGFloat = 90
+        static let undealtWidth = undealtHeight * aspectRatio
     }
 }
 
