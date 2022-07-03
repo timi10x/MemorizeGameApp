@@ -13,17 +13,19 @@ struct EmojiMemoryView: View {
     @Namespace private var dealingNamespace
     
     var body: some View {
-        VStack {
-            gameBody
-            deckBody
-            HStack {
-                restart
-                Spacer()
-                shuffle
+        ZStack(alignment: .bottom) {
+            VStack {
+                gameBody
+                HStack {
+                    restart
+                    Spacer()
+                    shuffle
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
+            deckBody
         }
-        .padding(.horizontal)
+        .padding()
     }
     
     @State private var dealt = Set<Int>()
