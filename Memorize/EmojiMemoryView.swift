@@ -16,7 +16,12 @@ struct EmojiMemoryView: View {
         VStack {
             gameBody
             deckBody
-            shuffle
+            HStack {
+                restart
+                Spacer()
+                shuffle
+            }
+            .padding(.horizontal)
         }
         .padding(.horizontal)
     }
@@ -68,6 +73,15 @@ struct EmojiMemoryView: View {
         Button("Shuffle") {
             withAnimation {
                 game.shuffle()
+            }
+        }
+    }
+    
+    var restart: some View {
+        Button("Restart") {
+            withAnimation {
+                dealt = []
+                game.restart()
             }
         }
     }
